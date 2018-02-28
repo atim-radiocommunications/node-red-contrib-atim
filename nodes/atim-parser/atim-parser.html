@@ -1,0 +1,147 @@
+<script type="text/javascript">
+    RED.nodes.registerType('atim-parser',{
+        category: 'ATIM',
+        color: '#3ec616',
+        defaults: {
+            detection: {value: "auto",type:"text",required: true},
+            product: {value: "ATIM_AST/LW8",type:"text",required: false},
+            custom:{ type: 'atim-custom-product', required: false}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "atim.png",
+        label: function() {
+            return this.name||"atim-parser";
+        },
+        oneditprepare: function() {
+            let node = this;            
+            
+           $('#div-product').hide();            
+           $('#div-custom').hide();
+            
+           $('#node-input-detection').change(function() {
+                if ($(this).val()=="auto") {
+                    $('#div-product').hide();       
+                    $('#div-custom').hide();
+                }else{
+                    $('#div-product').show();
+                    
+                    if ($('#node-input-product').val()=="CUSTOM") {
+                        $('#div-custom').show();
+                    }else{
+                        $('#div-custom').hide();
+                    }
+                }
+            });
+            
+            $('#node-input-product').change(function() {
+                if ($(this).val()=="CUSTOM") {
+                    $('#div-custom').show();
+                }else{
+                    $('#div-custom').hide();
+                }
+            });
+        }
+    }); 
+    
+    
+   
+</script>
+
+<script type="text/x-red" data-template-name="atim-parser">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <hr>
+    <div style="maring-bottom:10px"><h4>Configuration</h4></div>
+    <div class="form-row">
+        <label for="node-input-detection"><i class="fa fa-hand-o-right"></i> Detection</label>
+        <select id="node-input-detection">
+          <option value="auto" selected>Automatic</option>
+          <option value="manual">Manual</option>
+        </select>
+    </div>
+    
+    <div class="form-row" id="div-product">
+        <label for="node-input-product"><i class="fa fa-list"></i> Product</label>
+        <select id="node-input-product">
+            <option value="ACW/SF8-TH1">TH1</option>
+            <option value="ACW/SF8-KEY">KEY</option>
+            <option value="ACW/SF8-DIO">DIO</option>
+            <option value="ACW/SF8-DA1">DA1</option>
+            <option value="ACW/SF8-RS">RS</option>
+            <option value="ACW/SF8-DI2">DI2</option>
+            <option value="ACW/SF8-DI4">DI4</option>
+            <option value="ACW/SF8-TM1">TM1</option>
+            <option value="ACW/SF8-WL">WL</option>
+            <option value="ACW/SF8-PC">PC</option>
+            <option value="ACW/SF8-GW">GW</option>
+            <option value="ACW-DI">DI</option>
+            <option value="ACW/SF8-TM1D">TM1D</option>
+            <option value="ACW/SF8-TM2D">TM2D</option>
+            <option value="ACW/SF8-IR1">IR1</option>
+            <option value="ACW/SF8-DI2">DI2_COMPTEUR</option>
+            <option value="ACW/SF8-MR2">MR2</option>
+            <option value="ACW/SF8-MR2Ex">MR2Ex</option>
+            <option value="ACW/SF8-LVL">LVL</option>
+            <option value="ACW/SF8-SENSE">SENSE</option>
+            <option value="ACW/SF8-DIK">DIK-SF</option>
+            <option value="ACW/SF8-DIN-GW">DIN-GW</option>
+            <option value="ACW/SF8-DIN-DA">DIN-DA</option>
+            <option value="ACW/SF8-DIN-RS">DIN-RS</option>
+            <option value="ACW/SF8-TST">TST-SF8</option>
+            <option value="ACW/SF8-MR1-ELEC">MR1-ELEC</option>
+            <option value="ACW/SF8-THO">THO</option>
+            <option value="ACW/SF8-DIN-DIO16">DIN-DIO16</option>
+            <option value="ACW/SF8-WLT">WLT</option>
+            <option value="ACW/LW-TST">TST-LW</option>
+            <option value="ACW/PIR">PIR</option>
+            <option value="AST/LW8-TEMP">AST-LW8-TEMP</option>
+            <option value="AST/LW8-VOLT">AST-LW8-VOLT</option>
+            <option value="ACW/LW8-DIK">DIK-LW</option>     
+          <option value="CUSTOM"><em>Custom</em></option>
+        </select>
+    </div>
+    <div class="form-row" id="div-custom">
+        <label for="node-input-custom"><i class="fa fa-cogs"></i> Custom</label>
+        <input type="text" id="node-input-custom">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="atim-parser">
+    <p>This node permits to parse/decode raw data message from MQTT Connector.<br> This node uses library of ATIM's decoders, but you can also make your own product with custom collection of frames.</p>    
+    <h2>Node configuration</h2>
+      <ul>
+        <li><i class="fa fa-hand-o-right"></i><strong> Detection mode</strong> :<ul><li><em>Automatic</em> : Detect product from <code>msg.payload.product</code> attribute. </li><li><em>Manuel</em> : Select product to decode in below field</li></ul></li>
+        <li><i class="fa fa-list"></i> <strong>Product</strong> : Manually select your product in the list of ATIM's devices or select <em>Custom</em></li>
+        <li><i class="fa fa-cogs"></i> <strong>Custom</strong> : Create your own product with your own decoder.<em>Enable if product choice is "Custom"</em></li>
+      </ul>
+            
+      
+      <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>payload<span class="property-type">object | string</span>
+             </dt>
+            <dd><code>msg.payload</code> of the received message from MQTT server.</dd>
+            <dd>--- OR ---</dd>
+            <dd><code>msg.payload</code> with <code>product</code> attribute from <strong>atim-find-product</strong> node.</dd>
+        </dl>
+
+    <h3>Outputs</h3>
+     <ol class="node-ports">
+         <dl class="message-properties">
+             <dt>payload <span class="property-type">object</span></dt>
+             <dd>new JSON object attribute <code>msg.payload.channels</code> :<br>
+             <ul>
+                <li>
+                 <code>Température</code><ul><li><code>unit</code>: "°C"</li><li><code>raw_value</code>: "0070"</li><li><code>decoder_value</code>: 27</li></ul>   
+                </li>
+                <li>
+                <code>channel_name</code><ul><li><code>unit</code>: ...</li><li><code>raw_value</code>: ...</li><li><code>decoder_value</code>: ...</li></ul>
+                </li>
+             </ul>
+            </dd>
+         </dl>
+     </ol>
+</script>

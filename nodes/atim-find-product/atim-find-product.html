@@ -1,0 +1,74 @@
+<script type="text/javascript">
+    RED.nodes.registerType('atim-find-product',{
+        category: 'ATIM',
+        color: '#3ec616',
+        defaults: {
+            username: {
+                type:"text",
+                required: true
+            },
+            password: {
+                type:"password",
+                required: true
+            }
+        },
+        credentials: {
+             username: {
+                 type:"text"
+             },
+             password: {
+                 type:"password"
+             }
+         },
+        inputs:1,
+        outputs:1,
+        icon: "atim.png",
+        label: function() {
+            return this.name||"atim-find-product";
+        }
+    }); 
+</script>
+
+<script type="text/x-red" data-template-name="atim-find-product">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <hr>
+    <div><h4>Authentication</h4></div>
+     <div class="form-row">
+         <label for="node-input-username"><i class="fa fa-user"></i> Username</label>
+         <input type="text" id="node-input-username">
+     </div>
+     <div class="form-row">
+         <label for="node-input-password"><i class="fa fa-key"></i> Password</label>
+         <input type="password" id="node-input-password">
+     </div>
+</script>
+
+<script type="text/x-red" data-help-name="atim-find-product">
+   <p>This node add property <strong>product</strong> as product's name to the current <code>msg.payload</code>, finding it in profile's list from local LoRaWAN Network server <strong>AGATE</strong></p>
+    <p style="color: red"><i class="fa fa-warning"></i> Warning : This node only works on <strong>AGATE</strong> gateway</p>
+        <h3>Node configuration</h3>
+        <p>LoRaWAN network server credential's are needed :</p>
+        <ul>
+            <li><strong>Username</strong> - <em>default : ogate</em></li>
+            <li><strong>Password</strong> - <em>default : ogate</em></li>
+        </ul>
+      
+        <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>payload<span class="property-type">object | string</span>
+             </dt>
+            <dd>the payload of the received message from mqtt server.</dd>
+        </dl>
+
+        <h3>Outputs</h3>
+         <ol class="node-ports">
+             <dl class="message-properties">
+                 <dt>payload <span class="property-type">object</span></dt>
+                 <dd>new attribute <code>msg.payload.product</code> : product's name of current device</dd>
+             </dl>
+         </ol>
+</script>
+

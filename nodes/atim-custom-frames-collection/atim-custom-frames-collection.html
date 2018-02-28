@@ -1,0 +1,93 @@
+<script type="text/javascript">
+  RED.nodes.registerType('atim-custom-frames-collection', {
+    category: 'config',
+    defaults: {
+        name: {required:true},
+        primaryKey_start: {required:true, value:"0", validate: RED.validators.number()},
+        primaryKey_end: {required:true, value: 1, validate: RED.validators.number()},
+        payload: {
+            value:'{"HEADER_DECIMAL_VALUE":{"name":"Trame ABCD","channels":[{"name":"Bouton","type":"boolean","start":2,"end":2,"calcul":"{x}","unit":null},{"name":"Capteur ILS","type":"boolean","start":4,"end":5,"calcul":"{x}","unit":null},{"name":"Temperature","type":"int","start":6,"end":7,"calcul":"(2103-{x})/10.9","unit":"°C"}]}}', 
+            validate: RED.validators.typedInput("payloadType")
+        },
+        payloadType: {value:"json"}     
+    },
+    label: function () {
+        return this.name;
+    },
+    oneditprepare: function() {       
+        var exemple = "322187003614";
+        var start = 0;
+        var end = 1;
+        var result_hex = exemple.slice(start*2, end*2);
+        var result_dec = parseInt(result_hex,16);
+        $("#result_hex").html("<b>0x"+result_hex+"</b>");
+        $("#result_dec").html("<b>"+result_dec+"</b>");
+        
+     
+        $("#node-config-input-primaryKey_start").keyup(function(){
+            start = $( this ).val();
+            var result_hex = exemple.slice(start*2, end*2);
+            var result_dec = parseInt(result_hex,16);
+            $("#result_hex").html("<b>0x"+result_hex+"</b>");
+            $("#result_dec").html("<b>"+result_dec+"</b>");
+        });
+        
+        
+        $("#node-config-input-primaryKey_end").keyup(function(){
+            end = $( this ).val();
+            var result_hex = exemple.slice(start*2, end*2);
+            var result_dec = parseInt(result_hex,16);
+            $("#result_hex").html("<b>0x"+result_hex+"</b>");
+            $("#result_dec").html("<b>"+result_dec+"</b>");
+        });
+        
+           
+        this.payloadType = "json";            
+        $("#node-config-input-payloadType").val(this.payloadType);
+        $("#node-config-input-payload").typedInput({
+            default: 'json',
+            typeField: $("#node-config-input-payloadType"),
+            types:['json']
+        });
+        $("#node-config-input-payload").typedInput('type',this.payloadType);
+        
+        
+    }
+  })
+</script>
+
+<script type="text/x-red" data-template-name="atim-custom-frames-collection">
+    <div class="form-row">
+        <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-config-input-name" placeholder="Collection name">
+    </div>
+    <hr>
+    <div class="form-row">
+        <label for="node-config-input-primaryKey_start"><i class="fa fa-fast-forward"></i> Start Byte</label>
+        <input type="number" id="node-config-input-primaryKey_start" placeholder="Start byte number">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-primaryKey_end"><i class="fa fa-fast-backward"></i> End Byte</label>
+        <input type="number" id="node-config-input-primaryKey_end" placeholder="End byte number">
+    </div>
+    
+    <div id="exemple" style="margin-left:105px"><p>Frame exemple : <code>0x 32 21 87 00 36 14</code>  <i class="fa fa-arrow-right"></i>  <span id="result_hex"></span>  <i class="fa fa-arrow-right"></i>  <span id="result_dec" style="color:blue"></span> is the header</p></div>
+    
+    <hr>
+    <div class="form-row">
+        <label for="node-config-input-payload"><i class="fa fa-tasks"></i> Frames</label>
+        <input type="text" id="node-config-input-payload" style="width:70%">
+        <input type="hidden" id="node-config-input-payloadType">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="atim-custom-frames-collection">
+    <p>This node create a new custom frames collection for <strong>atim-custom-product</strong> node</p>    
+    <h2>Node configuration</h2>
+      <ul>
+        <li><i class="fa fa-tag"></i><strong> Name</strong> : Name of your frames collection. </li>
+        <li><i class="fa fa-fast-forward"></i> <strong>Start Byte</strong> : Index number of the start byte to detect primary key/header of the frame. <em>Default : 0</em></li>
+        <li><i class="fa fa-fast-backward"></i> <strong>End Byte</strong> : Index number of the end byte to detect primary key/header of the frame. <em>Default : 1</em></li>
+        <li><i class="fa fa-tasks"></i> <strong>Frames</strong> : JSON Object describing template of each frame. Use default value to build your own template. Please edit <strong>HEADER_DECIMAL_VALUE</strong> with the decimal value of your header/primary key.</li>
+      </ul>
+</script>

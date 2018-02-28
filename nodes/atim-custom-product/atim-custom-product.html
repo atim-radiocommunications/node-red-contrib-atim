@@ -1,0 +1,51 @@
+<script type="text/javascript">
+  RED.nodes.registerType('atim-custom-product', {
+    category: 'config',
+    defaults: {
+      name: {required:true},
+      reference: {required:false},
+      description: {required:false},
+      revision: {required:false},
+      collection: {type: 'atim-custom-frames-collection', required: true}
+    },
+    label: function () {
+        return this.name;
+    }
+  })
+</script>
+
+<script type="text/x-red" data-template-name="atim-custom-product">
+    <div class="form-row">
+        <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-config-input-name" placeholder="Product name">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-reference"><i class="fa fa-code"></i> Reference</label>
+        <input type="text" id="node-config-input-reference" placeholder="Reference">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-description"><i class="fa fa-quote-right"></i> Description</label>
+        <input type="text" id="node-config-input-description" placeholder="Description">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-revision"><i class="fa fa-info"></i> Revision</label>
+        <input type="text" id="node-config-input-revision" placeholder="1.0">
+    </div>
+    <hr>
+    <div class="form-row">
+        <label for="node-config-input-collection"><i class="fa fa-list-alt"></i> Frames Collection</label>
+        <input type="number" id="node-config-input-collection" >
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="atim-custom-product">
+    <p>This node create a new custom product for <strong>atim-parser</strong> node</p>    
+    <h2>Node configuration</h2>
+      <ul>
+        <li><i class="fa fa-tag"></i><strong> Name</strong> : Name of your product. </li>
+        <li><i class="fa fa-code"></i> <strong>Reference</strong> : Official reference name of your product. <em>Optional</em></li>
+        <li><i class="fa fa-quote-right"></i> <strong>Description</strong> : Give a description of your product. <em>Optional</em></li>
+        <li><i class="fa fa-info"></i> <strong>Revision</strong> : Revision number of your product. <em>Optional</em></li>
+        <li><i class="fa fa-list-alt"></i> <strong>Frames Collection</strong> : Create your own collection of frames.</li>
+      </ul>
+</script>
