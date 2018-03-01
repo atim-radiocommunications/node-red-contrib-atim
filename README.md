@@ -36,7 +36,7 @@ npm install -g node-red-contrib-atim
 See the [Node-RED Documentation / Adding Nodes](http://nodered.org/docs/getting-started/adding-nodes) for more options.
 
 
-## Documentation :ledger:
+## Documentation
 
 Go trough the [Quickstart](docs/quickstart.md) to get started.
 
@@ -53,7 +53,7 @@ See [examples/quickstart.json](examples/quickstart.json).
 
 ### License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
 ### History 
 
