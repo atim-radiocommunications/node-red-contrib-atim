@@ -1,24 +1,21 @@
- <img align="right" width="80" height="80" src="http://www.atim.com/wp-content/media/img/fr/atim_flat.svg">
+<img align="right" width="80" height="80" alt="ATIM logo" title="ATIM" src="http://www.atim.com/wp-content/media/img/fr/atim_flat.svg"/>
+ 
 # ATIM Node-RED App Nodes
-
-[![NPM](https://img.shields.io/npm/v/node-red-contrib-atim.svg?maxAge=2592000)](http://flows.nodered.org/node/node-red-contrib-atim) 
-![Node-RED LoRaWAN](http://b.repl.ca/v1/Node--RED-LoRaWAN-blue.png) 
-[![ATIM_logo](nodes/atim-parser/icons/atim_black.png)](https://www.npmjs.com/package/node-red-contrib-modbus) 
 
 ATIM Nodes for [Node-RED](http://nodered.org) to decode messages from LoRaWAN Gateway like [AGATE](http://www.atim.com/docs/FRANCAIS/ACW%20MODEMS/A-GATE/ATIM_A-GATE_DS_FR_v1-0.pdf), [Multitech](https://www.multitech.com/brands/multiconnect-conduit) or server.
 
-#### Dependencies 🔗
+#### Dependencies
 [![NPM](http://b.repl.ca/v1/request-2.83.0-red.png)](https://www.npmjs.com/package/request)
 
 #### Table of contents
 
-* [Install](#Install)
-* [Documentation](#Documentation)
-* [Examples](#Examples)
-* [About](#About)
- * [Authors](#Authors)
- * [License](#License)
- * [History](#History)
+- [Install](#Install)
+- [Documentation](#Documentation)
+- [Examples](#Examples)
+- [About](#About)
+ - [Authors](#Authors)
+ - [License](#License)
+ - [History](#History)
 
 
 ## Install
