@@ -1,0 +1,207 @@
+[
+    {
+        "id": "ba2f3d01.eba06",
+        "type": "tab",
+        "label": "Simple-AGATE-Demo",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "633b40ad.378bc",
+        "type": "mqtt in",
+        "z": "ba2f3d01.eba06",
+        "name": "",
+        "topic": "out/#",
+        "qos": "2",
+        "broker": "d4c6dc9e.35d07",
+        "x": 213,
+        "y": 179,
+        "wires": [
+            [
+                "5c8c1707.5079e8",
+                "7ac6c4e7.ae946c"
+            ]
+        ]
+    },
+    {
+        "id": "dc99b27b.a395e",
+        "type": "atim-parser",
+        "z": "ba2f3d01.eba06",
+        "detection": "auto",
+        "product": "",
+        "custom": "",
+        "x": 813,
+        "y": 179,
+        "wires": [
+            [
+                "3d43b3cf.3733cc"
+            ]
+        ]
+    },
+    {
+        "id": "3d43b3cf.3733cc",
+        "type": "debug",
+        "z": "ba2f3d01.eba06",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1053,
+        "y": 179,
+        "wires": []
+    },
+    {
+        "id": "5c8c1707.5079e8",
+        "type": "json",
+        "z": "ba2f3d01.eba06",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 426,
+        "y": 360,
+        "wires": [
+            [
+                "5cc137c5.aad128"
+            ]
+        ]
+    },
+    {
+        "id": "40ef4a7b.c985b4",
+        "type": "comment",
+        "z": "ba2f3d01.eba06",
+        "name": "MQTT Subscription",
+        "info": "Subscription to MQTT Broker - Topic : out/#",
+        "x": 173,
+        "y": 139,
+        "wires": []
+    },
+    {
+        "id": "5cc137c5.aad128",
+        "type": "switch",
+        "z": "ba2f3d01.eba06",
+        "name": "",
+        "property": "payload.devEUI",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "70B3D59BA000ABCD",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "70B3D59BA000BCDE",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 570,
+        "y": 360,
+        "wires": [
+            [
+                "e22c930d.c0ddc"
+            ],
+            [
+                "a7f6689b.d1b028"
+            ]
+        ]
+    },
+    {
+        "id": "e22c930d.c0ddc",
+        "type": "atim-parser",
+        "z": "ba2f3d01.eba06",
+        "detection": "manual",
+        "product": "AST/LW8-TEMP",
+        "custom": "",
+        "x": 808,
+        "y": 347,
+        "wires": [
+            [
+                "3d43b3cf.3733cc"
+            ]
+        ]
+    },
+    {
+        "id": "a7f6689b.d1b028",
+        "type": "atim-parser",
+        "z": "ba2f3d01.eba06",
+        "detection": "manual",
+        "product": "ACW/LW-TST",
+        "custom": "",
+        "x": 808,
+        "y": 386,
+        "wires": [
+            [
+                "3d43b3cf.3733cc"
+            ]
+        ]
+    },
+    {
+        "id": "fc49e4e4.8af678",
+        "type": "comment",
+        "z": "ba2f3d01.eba06",
+        "name": "Edit Switch",
+        "info": "",
+        "x": 562,
+        "y": 397,
+        "wires": []
+    },
+    {
+        "id": "b98316f7.19f1c8",
+        "type": "comment",
+        "z": "ba2f3d01.eba06",
+        "name": "MANUAL MODE",
+        "info": "",
+        "x": 687,
+        "y": 296,
+        "wires": []
+    },
+    {
+        "id": "ccec409c.36eed",
+        "type": "comment",
+        "z": "ba2f3d01.eba06",
+        "name": "AUTOMATIC MODE",
+        "info": "",
+        "x": 687,
+        "y": 127,
+        "wires": []
+    },
+    {
+        "id": "7ac6c4e7.ae946c",
+        "type": "atim-find-product",
+        "z": "ba2f3d01.eba06",
+        "username": "ogate",
+        "password": "ogate",
+        "x": 608,
+        "y": 179,
+        "wires": [
+            [
+                "dc99b27b.a395e"
+            ]
+        ]
+    },
+    {
+        "id": "d4c6dc9e.35d07",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "",
+        "broker": "127.0.0.1",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": ""
+    }
+]
