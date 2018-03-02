@@ -53,7 +53,7 @@ See [examples/quickstart.json](examples/quickstart.json).
 
 ### License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE][4] file for details
 
 ### History 
 
@@ -62,3 +62,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 [1]:https://github.com/Quentintin
 [2]:https://github.com/atim-radiocommunications
 [3]:http://www.atim.com
+[4]:https://github.com/atim-radiocommunications/node-red-contrib-atim/blob/master/LICENSE
