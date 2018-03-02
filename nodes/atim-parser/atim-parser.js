@@ -23,7 +23,6 @@ module.exports = function(RED) {
                 }
             }
 					
-            var data = input.payload.data;
             
             if(node.detection == "auto"){
                 var productName = input.payload.product;
@@ -35,7 +34,7 @@ module.exports = function(RED) {
             var product = productsList[productName];
             
             if(product != undefined && product.collectionId != null){
-                input.payload.channels = parseMessage(product.collectionId, data);
+                input.payload.channels = parseMessage(product, input.payload);
             }else{ //CUSTOM
                 switch(productName){
                     case "ATIM_AST/LW8":
@@ -56,7 +55,7 @@ module.exports = function(RED) {
                                 }
                         };
                         
-                        input.payload.channels = parseMessage(0, data, decoder);
+                        input.payload.channels = parseMessage({collectionId:0}, input.payload, decoder);
                         break;
                     case "ATIM_SDK":
                         break;
@@ -71,54 +70,64 @@ module.exports = function(RED) {
                             decoder.primaryKey_start = collection.primaryKey_start;
                             decoder.primaryKey_end = collection.primaryKey_end;
                             decoder.frames = JSON.parse(collection.payload);
-                            input.payload.channels = parseMessage(0, data, decoder);
+                            input.payload.channels = parseMessage({collectionId:0}, input.payload, decoder);
                         }
                         
                         break;
                     default:
                         break;
                 }
-            }
-            
+            }            
 			
             node.send(input);			
         });
     };
     
-    function parseMessage(collectionId, data, decoder){
+    function parseMessage(product, payload, decoder){        
+        var data = payload.data;
+        var datetime =  new Date(payload.datetime);
+        var collectionId =  product.collectionId;        
+        
         var channels = {};        
         if(!decoder){
            var collection = framesCollection[collectionId]; 
         }else{
             var collection = decoder;
         }
-            
-            if(collection != undefined){
-                var header = data.slice(collection.primaryKey_start, collection.primaryKey_end * 2) || 0;
-                var frame = collection.frames[parseInt(header,16)];
+        
+        if(collection != undefined){
+            var header = data.slice(collection.primaryKey_start, collection.primaryKey_end * 2) || 0;
+            var frame = collection.frames[parseInt(header,16)];
 
-                if(frame != undefined){            
-                    frame.channels.forEach(function(channel){                 
-                        var channel_name = channel.name;//.replace(/" "/gi, "_").toLowerCase();
-                        var val_raw = data.slice((channel.start*2)-2, channel.end *2);
-                        channels[channel_name] = {};
-                        channels[channel_name].unit = channel.unit;
-                        channels[channel_name].raw_value = val_raw;
+            if(frame != undefined){            
+                frame.channels.forEach(function(channel){                 
+                    var channel_name = channel.name;//.replace(/" "/gi, "_").toLowerCase();
+                    var val_raw = data.slice((channel.start*2)-2, channel.end *2);
+                    var delay = channel.delay || 0;
+                    var mesure_datetime = new Date(datetime.getTime() - (delay * 60000))
 
-                        var val_buffer = convert.hexStringToBuf(val_raw);
-                        var data_calcul = 0;
+                    channels[channel_name] = {};
+                    channels[channel_name].unit = channel.unit;
+                    var value = {};
+                    value.datetime = mesure_datetime;
+                    value.raw_value = val_raw;
 
-                        if(val_buffer != null){											
-                            var dataConvert= convert.converter(val_buffer,channel.type);
-                            data_calcul = channel.calcul.replace(/{x}/gi, dataConvert);		
-                        }else{
-                            console.error(val_buffer, val_raw, channel);
-                        }                
+                    var val_buffer = convert.hexStringToBuf(val_raw);
+                    var data_calcul = 0;
 
-                        channels[channel_name].decoded_value = eval(data_calcul);
-                    });
-                }
+                    if(val_buffer != null){											
+                        var dataConvert= convert.converter(val_buffer,channel.type);
+                        data_calcul = channel.calcul.replace(/{x}/gi, dataConvert);		
+                    }else{
+                        console.error(val_buffer, val_raw, channel);
+                    }                
+
+                    value.decoded_value = eval(data_calcul);
+                    channels[channel_name].values = [];
+                    channels[channel_name].values.push(value);
+                });
             }
+        }
         
         
         

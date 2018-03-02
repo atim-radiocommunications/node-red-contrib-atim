@@ -2,6 +2,7 @@
     RED.nodes.registerType('atim-parser',{
         category: 'ATIM',
         color: '#3ec616',
+        icon: "atim.png",
         defaults: {
             detection: {value: "auto",type:"text",required: true},
             product: {value: "ATIM_AST/LW8",type:"text",required: false},
@@ -9,7 +10,6 @@
         },
         inputs:1,
         outputs:1,
-        icon: "atim.png",
         label: function() {
             return this.name||"atim-parser";
         },
@@ -134,11 +134,39 @@
              <dt>payload <span class="property-type">object</span></dt>
              <dd>new JSON object attribute <code>msg.payload.channels</code> :<br>
              <ul>
-                <li>
-                 <code>Température</code><ul><li><code>unit</code>: "°C"</li><li><code>raw_value</code>: "0070"</li><li><code>decoder_value</code>: 27</li></ul>   
+                <li><code>Température</code> : JSON object {}
+                    <ul>
+                        <li><code>unit</code>: "°C"</li>
+                        <li><code>values</code> : JSON Array []
+                            <ul>
+                                <li>JSON Object {}
+                                    <ul>
+                                        <li><code>datetime</code>: "2018-03-02T10:43:20.000Z"</li>
+                                        <li><code>raw_value</code>: "0070"</li>
+                                        <li><code>decoded_value</code>: 27</li>
+                                    </ul>
+                                </li>
+                                <li>JSON Object {}</li>
+                            </ul>
+                        </li>
+                    </ul>  
                 </li>
-                <li>
-                <code>channel_name</code><ul><li><code>unit</code>: ...</li><li><code>raw_value</code>: ...</li><li><code>decoder_value</code>: ...</li></ul>
+                <li><code>channel_name</code> : JSON object {}
+                    <ul>
+                        <li><code>unit</code>: "..."</li>
+                        <li><code>values</code> : JSON Array []
+                            <ul>
+                                <li>JSON Object {}
+                                    <ul>
+                                        <li><code>datetime</code>: "..."</li>
+                                        <li><code>raw_value</code>: "..."</li>
+                                        <li><code>decoded_value</code>: ..</li>
+                                    </ul>
+                                </li>
+                                <li>JSON Object {}</li>
+                            </ul>
+                        </li>
+                    </ul>  
                 </li>
              </ul>
             </dd>
