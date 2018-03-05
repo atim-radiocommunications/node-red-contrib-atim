@@ -95,6 +95,13 @@ module.exports = function(RED) {
             var collection = decoder;
         }
         
+        if(product.id == 18 || product.id == 37){ // GW/RPT Sigfox
+            if(data.length == 24){ // GW/RPT Frame is full size length(12 Bytes)
+                var addressHex = data.substr(-2).toUpperCase(); //1 Byte Address is at the end of the frame (Last byte of deviceId Sigfox)
+                var addressDec = parseInt(addressHex,16);
+            }
+        }
+        
         if(collection != undefined){
             var header = data.slice(collection.primaryKey_start, collection.primaryKey_end * 2) || 0;
             var frame = collection.frames[parseInt(header,16)];
@@ -111,6 +118,10 @@ module.exports = function(RED) {
                     var value = {};
                     value.datetime = mesure_datetime;
                     value.raw_value = val_raw;
+                    
+                    if(addressDec != undefined){
+                        value.address = addressDec;
+                    }
 
                     var val_buffer = convert.hexStringToBuf(val_raw);
                     var data_calcul = 0;

@@ -1,6 +1,6 @@
 {
     "name": "node-red-contrib-atim",
-    "version": "1.0.2",
+    "version": "1.1.0",
     "description": "ATIM Nodes for Node-RED to decode messages from LoRaWAN Gateway like AGATE, Multitech or server.",
     "author": "Quentin DESBOIS <qd@atim.com>",
     "maintainers": [
@@ -25,7 +25,9 @@
             "atim-parser": "nodes/atim-parser/atim-parser.js",
             "atim-custom-product": "nodes/atim-custom-product/atim-custom-product.js",
             "atim-custom-frames-collection": "nodes/atim-custom-frames-collection/atim-custom-frames-collection.js",
-            "atim-find-product": "nodes/atim-find-product/atim-find-product.js"
+            "atim-find-product": "nodes/atim-find-product/atim-find-product.js",
+            "atim-gateway-details": "nodes/atim-gateway-details/atim-gateway-details.js",
+            "atim-agate-user": "nodes/atim-agate-user/atim-agate-user.js"
         }
     },
     "dependencies": {

@@ -1,0 +1,41 @@
+<script type="text/javascript">
+  RED.nodes.registerType('atim-agate-user', {
+        category: 'config',
+        defaults: {
+            name: {
+                type:"text",
+                required: true,
+                value : "ogate"
+            },
+            password: {
+                type:"password",
+                required: true,
+                value : "ogate"
+            }
+        },
+        label: function () {
+            return this.name;
+        }
+  })
+</script>
+
+<script type="text/x-red" data-template-name="atim-agate-user">
+    <div><h4>Authentication</h4></div>
+     <div class="form-row">
+         <label for="node-config-input-name"><i class="fa fa-user"></i> Username</label>
+         <input type="text" id="node-config-input-name">
+     </div>
+     <div class="form-row">
+         <label for="node-config-input-password"><i class="fa fa-key"></i> Password</label>
+         <input type="password" id="node-config-input-password">
+     </div>
+</script>
+
+<script type="text/x-red" data-help-name="atim-agate-user">
+    <p>This node sign in AGATE user</p>    
+    <h2>Node configuration</h2>
+      <ul>
+        <li><i class="fa fa-user"></i><strong> Username</strong></li>
+        <li><i class="fa fa-key"></i> <strong>Password</strong></li>
+      </ul>
+</script>

@@ -1,7 +1,7 @@
 <script type="text/javascript">
-    RED.nodes.registerType('atim-find-product',{
+    RED.nodes.registerType('atim-gateway-details',{
         category: 'ATIM',
-        color: '#3ec616',       
+        color: '#3ec616',
         defaults: {
             user:{ type: 'atim-agate-user', required: true}
         },
@@ -9,12 +9,12 @@
         outputs:1,
         icon: "atim.png",
         label: function() {
-            return this.name||"atim-find-product";
+            return this.name||"atim-gateway-details";
         }
     }); 
 </script>
 
-<script type="text/x-red" data-template-name="atim-find-product">
+<script type="text/x-red" data-template-name="atim-gateway-details">
     <div class="form-row">
         <label for="node-input-name"><i class="icon-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
@@ -26,8 +26,8 @@
     </div>
 </script>
 
-<script type="text/x-red" data-help-name="atim-find-product">
-   <p>This node add property <strong>product</strong> as product's name to the current <code>msg.payload</code>, finding it in profile's list from local LoRaWAN Network server <strong>AGATE</strong></p>
+<script type="text/x-red" data-help-name="atim-gateway-details">
+   <p>This node add properties (location, IP, description) to <code>best_gw</code> field into the current <code>msg.payload</code>, finding it in gateway's list from local LoRaWAN Network server <strong>AGATE</strong></p>
     <p style="color: red"><i class="fa fa-warning"></i> Warning : This node only works on <strong>AGATE</strong> gateway</p>
         <h3>Node configuration</h3>
         <p>LoRaWAN network server credential's are needed :</p>
@@ -47,7 +47,7 @@
          <ol class="node-ports">
              <dl class="message-properties">
                  <dt>payload <span class="property-type">object</span></dt>
-                 <dd>new attribute <code>msg.payload.product</code> : product's name of current device</dd>
+                 <dd>new attribute into <code>msg.payload.best_gw</code></dd>
              </dl>
          </ol>
 </script>

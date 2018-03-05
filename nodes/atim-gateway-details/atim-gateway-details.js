@@ -1,10 +1,9 @@
 var request = require('request');
 
 module.exports = function(RED) {	
-    function GetProductName(config) {
+    function GetGWDetails(config) {
         RED.nodes.createNode(this,config);        
-        this.user = RED.nodes.getNode(config.user);
-        
+        this.user = RED.nodes.getNode(config.user);        
         var node = this;
         
 		
@@ -15,7 +14,7 @@ module.exports = function(RED) {
 			
 			var opts = {
 				method: "GET",
-				url: "http://localhost:8080/api/nodes",
+				url: "http://localhost:8080/api/gateways",
 				timeout: 5000,
                 auth: {
                     'user': node.user.name,
@@ -68,17 +67,23 @@ module.exports = function(RED) {
 							node.metric("size.bytes", msg, response.connection.bytesRead);
 						}
 					}
+                    
+					msg.payload = msg.payload.toString('utf8'); 
 					
-					msg.payload = msg.payload.toString('utf8'); 					
 					try { 
-						msg.payload = JSON.parse(msg.payload);  
+						msg.payload = JSON.parse(msg.payload); 
                         if(typeof input.payload !== "object"){
                             input.payload = JSON.parse(input.payload);
                         }
                         
-						msg.payload.forEach(function(device){														
-							if(device.devaddr == input.payload.devaddr){
-								input.payload.product = device.profile;
+						msg.payload.forEach(function(gateway){														
+							if(gateway.mac == input.payload.best_gw.mac){
+								input.payload.best_gw.gps = {};
+								input.payload.best_gw.gps.altitude = gateway.gpsalt;
+								input.payload.best_gw.gps.latitude = gateway.gpspos.lat;
+								input.payload.best_gw.gps.longitude = gateway.gpspos.lon;
+								input.payload.best_gw.description = gateway.desc;
+								input.payload.best_gw.ip = gateway.ip_address.ip;
 							}
 						});	
 						node.send(input);						
@@ -92,7 +97,7 @@ module.exports = function(RED) {
     }
 	
 	
-    RED.nodes.registerType("atim-find-product",GetProductName,{
+    RED.nodes.registerType("atim-gateway-details",GetGWDetails,{
      credentials: {
          username: {type:"text"},
          password: {type:"password"}
