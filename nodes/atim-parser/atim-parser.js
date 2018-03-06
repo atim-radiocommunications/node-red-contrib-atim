@@ -34,7 +34,9 @@ module.exports = function(RED) {
             var product = productsList[productName];
             
             if(product != undefined && product.collectionId != null){
-                input.payload.channels = parseMessage(product, input.payload);
+                var parse = parseMessage(product, input.payload);
+                input.payload.channels = parse[0];
+                input.payload.frameName = parse[1];
             }else{ //CUSTOM
                 switch(productName){
                     case "ATIM_AST/LW8":
@@ -55,7 +57,9 @@ module.exports = function(RED) {
                                 }
                         };
                         
-                        input.payload.channels = parseMessage({collectionId:0}, input.payload, decoder);
+                        var parse = parseMessage({collectionId:0}, input.payload, decoder);
+                        input.payload.channels = parse[0];
+                        input.payload.frameName = parse[1];
                         break;
                     case "ATIM_SDK":
                         break;
@@ -70,7 +74,9 @@ module.exports = function(RED) {
                             decoder.primaryKey_start = collection.primaryKey_start;
                             decoder.primaryKey_end = collection.primaryKey_end;
                             decoder.frames = JSON.parse(collection.payload);
-                            input.payload.channels = parseMessage({collectionId:0}, input.payload, decoder);
+                            var parse = parseMessage({collectionId:0}, input.payload, decoder);
+                            input.payload.channels = parse[0];
+                            input.payload.frameName = parse[1];
                         }
                         
                         break;
@@ -105,16 +111,18 @@ module.exports = function(RED) {
         if(collection != undefined){
             var header = data.slice(collection.primaryKey_start, collection.primaryKey_end * 2) || 0;
             var frame = collection.frames[parseInt(header,16)];
-
             if(frame != undefined){            
-                frame.channels.forEach(function(channel){                 
+                frame.channels.forEach(function(channel){     
                     var channel_name = channel.name;//.replace(/" "/gi, "_").toLowerCase();
                     var val_raw = data.slice((channel.start*2)-2, channel.end *2);
                     var delay = channel.delay || 0;
                     var mesure_datetime = new Date(datetime.getTime() - (delay * 60000))
 
-                    channels[channel_name] = {};
-                    channels[channel_name].unit = channel.unit;
+                    if(channels[channel_name] == undefined){                        
+                        channels[channel_name] = {};
+                        channels[channel_name].unit = channel.unit;
+                    }
+                    
                     var value = {};
                     value.datetime = mesure_datetime;
                     value.raw_value = val_raw;
@@ -134,7 +142,10 @@ module.exports = function(RED) {
                     }                
 
                     value.decoded_value = eval(data_calcul);
-                    channels[channel_name].values = [];
+                    
+                    if(channels[channel_name].values == undefined){
+                        channels[channel_name].values = [];
+                    }
                     channels[channel_name].values.push(value);
                 });
             }
@@ -142,7 +153,7 @@ module.exports = function(RED) {
         
         
         
-        return channels;
+        return [channels, frame.name];
     };
     
     RED.nodes.registerType("atim-parser",DecoderNode);

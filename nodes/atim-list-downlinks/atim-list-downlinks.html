@@ -1,0 +1,54 @@
+<script type="text/javascript">
+    RED.nodes.registerType('atim-list-downlinks',{
+        category: 'ATIM',
+        color: '#3ec616',       
+        defaults: {
+            user:{ type: 'atim-agate-user', required: true}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "atim.png",
+        label: function() {
+            return this.name||"atim-list-downlinks";
+        }
+    }); 
+</script>
+
+<script type="text/x-red" data-template-name="atim-list-downlinks">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <hr>    
+    <div class="form-row" id="div-user">
+        <label for="node-input-user"><i class="fa fa-key"></i> Auth</label>
+        <input type="text" id="node-input-user">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="atim-list-downlinks">
+   <p>This node provides list of pending downlinks in FIFO stack of <strong>AGATE</strong> LoRaWAN Network server</p>
+    <p style="color: red"><i class="fa fa-warning"></i> Warning : This node only works on <strong>AGATE</strong> gateway</p>
+        <h3>Node configuration</h3>
+        <p>LoRaWAN network server credential's are needed :</p>
+        <ul>
+            <li><strong>Username</strong> - <em>default : ogate</em></li>
+            <li><strong>Password</strong> - <em>default : ogate</em></li>
+        </ul>
+      
+        <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>payload<span class="property-type">object | string</span>
+             </dt>
+            <dd>the payload of the received message from mqtt server.</dd>
+        </dl>
+
+        <h3>Outputs</h3>
+         <ol class="node-ports">
+             <dl class="message-properties">
+                 <dt>payload <span class="property-type">object</span></dt>
+                 <dd>new attribute <code>msg.payload.product</code> : product's name of current device</dd>
+             </dl>
+         </ol>
+</script>
+

@@ -1,7 +1,7 @@
 var request = require('request');
 
 module.exports = function(RED) {	
-    function GetProductName(config) {
+    function GetDownlinks(config) {
         RED.nodes.createNode(this,config);        
         this.user = RED.nodes.getNode(config.user);
         
@@ -15,7 +15,7 @@ module.exports = function(RED) {
 			
 			var opts = {
 				method: "GET",
-				url: "http://localhost:8080/api/nodes",
+				url: "http://localhost:8080/api/txframes",
 				timeout: 5000,
                 auth: {
                     'user': node.user.name,
@@ -76,11 +76,7 @@ module.exports = function(RED) {
                             input.payload = JSON.parse(input.payload);
                         }
                         
-						msg.payload.forEach(function(device){														
-							if(device.devaddr == input.payload.devaddr){
-								input.payload.product = device.profile;
-							}
-						});	
+				        input.payload.downlinks = msg.payload;                        
 						node.send(input);						
 					}
 					catch(e) { 
@@ -92,5 +88,5 @@ module.exports = function(RED) {
     }
 	
 	
-    RED.nodes.registerType("atim-find-product",GetProductName);
+    RED.nodes.registerType("atim-list-downlinks",GetDownlinks);
 }
