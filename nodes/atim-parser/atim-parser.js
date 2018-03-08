@@ -84,8 +84,8 @@ module.exports = function(RED) {
                         break;
                 }
             }            
-			
-            node.send(input);			
+			if(input.payload.frameName != undefined)
+                node.send(input);			
         });
     };
     
@@ -110,8 +110,32 @@ module.exports = function(RED) {
         
         if(collection != undefined){
             var header = data.slice(collection.primaryKey_start, collection.primaryKey_end * 2) || 0;
-            var frame = collection.frames[parseInt(header,16)];
-            if(frame != undefined){            
+            var frame = collection.frames[header];            
+            if(frame == undefined){
+                Object.keys(collection.frames).forEach(function(frameHeader){   
+
+                    var headerXX = header.substr(0,2)+"##"; 
+                    if(header.length >= 4)
+                        var headerXXXX = header.substr(0,2)+"####";                    
+                    if(header.length >= 6)
+                        var headerXXXXXX = header.substr(0,2)+"######";                    
+                    if(header.length >= 8)
+                        var headerXXXXXXXX = header.substr(0,2)+"##########";
+                    
+                    if(frameHeader == headerXX){
+                        frame = collection.frames[headerXX];
+                    }else if(frameHeader == headerXXXX){
+                        frame = collection.frames[headerXXXX]; 
+                    }else if(frameHeader == headerXXXXXX){                        
+                        frame = collection.frames[headerXXXXXX];
+                    }else if(frameHeader == headerXXXXXXXX){                        
+                        frame = collection.frames[headerXXXXXXXX];
+                    }
+                });                             
+            }      
+
+                
+            if(frame !== undefined){
                 frame.channels.forEach(function(channel){     
                     var channel_name = channel.name;//.replace(/" "/gi, "_").toLowerCase();
                     var val_raw = data.slice((channel.start*2)-2, channel.end *2);
@@ -121,7 +145,7 @@ module.exports = function(RED) {
                     if(channels[channel_name] == undefined){                        
                         channels[channel_name] = {};
                         channels[channel_name].unit = channel.unit;
-                    }
+                    }                    
                     
                     var value = {};
                     value.datetime = mesure_datetime;
@@ -145,14 +169,15 @@ module.exports = function(RED) {
                     
                     if(channels[channel_name].values == undefined){
                         channels[channel_name].values = [];
-                    }
-                    channels[channel_name].values.push(value);
+                    }                    
+                    channels[channel_name].values.push(value);                    
                 });
             }
         }
         
-        
-        
+        if(frame == undefined){
+            frame = {name : undefined};
+        }        
         return [channels, frame.name];
     };
     

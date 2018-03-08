@@ -6,7 +6,7 @@
         primaryKey_start: {required:true, value:"0", validate: RED.validators.number()},
         primaryKey_end: {required:true, value: 1, validate: RED.validators.number()},
         payload: {
-            value:'{"HEADER_DECIMAL_VALUE":{"name":"Trame ABCD","channels":[{"name":"Bouton","type":"boolean","start":2,"end":2,"calcul":"{x}","unit":null},{"name":"Capteur ILS","type":"boolean","start":4,"end":5,"calcul":"{x}","unit":null},{"name":"Temperature","type":"int","start":6,"end":7,"calcul":"(2103-{x})/10.9","unit":"°C"}]}}', 
+            value:'{"HEADER_HEXADECIMAL_VALUE":{"name":"Trame ABCD","channels":[{"name":"Bouton","type":"boolean","start":2,"end":2,"calcul":"{x}","unit":null},{"name":"Capteur ILS","type":"boolean","start":4,"end":5,"calcul":"{x}","unit":null},{"name":"Temperature","type":"int","start":6,"end":7,"calcul":"(2103-{x})/10.9","unit":"°C"}]}}', 
             validate: RED.validators.typedInput("payloadType")
         },
         payloadType: {value:"json"}     
@@ -71,7 +71,7 @@
         <input type="number" id="node-config-input-primaryKey_end" placeholder="End byte number">
     </div>
     
-    <div id="exemple" style="margin-left:105px"><p>Frame exemple : <code>0x 32 21 87 00 36 14</code>  <i class="fa fa-arrow-right"></i>  <span id="result_hex"></span>  <i class="fa fa-arrow-right"></i>  <span id="result_dec" style="color:blue"></span> is the header</p></div>
+    <div id="exemple" style="margin-left:105px"><p>Frame exemple : <code>0x 32 21 87 00 36 14</code>  <i class="fa fa-arrow-right"></i>  <span id="result_hex"></span> is the header</p></div>
     
     <hr>
     <div class="form-row">
