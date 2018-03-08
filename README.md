@@ -38,13 +38,11 @@ See the [Node-RED Documentation / Adding Nodes](http://nodered.org/docs/getting-
 
 ## Documentation
 
-Go trough the [Quickstart](docs/quickstart.md) to get started.
+Please visit **wiki* hosted by GitHub : [Documentation](https://github.com/atim-radiocommunications/node-red-contrib-atim/wiki).
 
 ## Examples
 
-See [examples/quickstart.json](examples/quickstart.json).
-
-[![Quick Start](examples/quickstart.png)](examples/quickstart.json)
+Some flows examples are described in **wiki** : [Examples Flows](https://github.com/atim-radiocommunications/node-red-contrib-atim/wiki/Examples).
 
 ## About
 
