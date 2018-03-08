@@ -38,7 +38,34 @@ See the [Node-RED Documentation / Adding Nodes](http://nodered.org/docs/getting-
 
 ## Documentation
 
-Please visit **wiki* hosted by GitHub : [Documentation](https://github.com/atim-radiocommunications/node-red-contrib-atim/wiki).
+Please visit **wiki** hosted by GitHub :
+
+* [Home][101]
+* [Getting started][102]
+* [Examples][103]
+   * [Basic Flow][104]
+   * [AGATE Flow][105]
+* Nodes descriptions
+   * [atim-find-product][121]
+   * [atim-gateway-details][122]
+   * [atim-list-downlinks][123]
+   * [atim-agate-user][124]
+   * [atim-parser][125]
+   * [atim-custom-product][126]
+   * [atim-custom-frames-collection][127]
+
+[101]:https://github.com/atim-radiocommunications/node-red-contrib-atim/wiki/
+[102]:https://github.com/atim-radiocommunications/node-red-contrib-atim/wiki/Getting-started
+[103]:https://github.com/atim-radiocommunications/node-red-contrib-atim/wiki/Examples
+[104]:https://github.com/atim-radiocommunications/node-red-contrib-atim/wiki/Basic-Flow
+[105]:https://github.com/atim-radiocommunications/node-red-contrib-atim/wiki/AGATE-Flow
+[121]:https://github.com/atim-radiocommunications/node-red-contrib-atim/wiki/Node-:-Find-product
+[122]:https://github.com/atim-radiocommunications/node-red-contrib-atim/wiki/Node-:-Gateway-Details
+[123]:https://github.com/atim-radiocommunications/node-red-contrib-atim/wiki/Node-:-List-Downlinks
+[124]:https://github.com/atim-radiocommunications/node-red-contrib-atim/wiki/Config-node-:-AGATE-user
+[125]:https://github.com/atim-radiocommunications/node-red-contrib-atim/wiki/Node-:-Message-parser
+[126]:https://github.com/atim-radiocommunications/node-red-contrib-atim/wiki/Config-node-:-Custom-product
+[127]:https://github.com/atim-radiocommunications/node-red-contrib-atim/wiki/Config-node-:--Custom-frames-collection
 
 ## Examples
 
