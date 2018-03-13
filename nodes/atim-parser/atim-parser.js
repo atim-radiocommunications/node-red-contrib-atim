@@ -108,8 +108,10 @@ module.exports = function(RED) {
             }
         }
         
+        
         if(collection != undefined){
             var header = data.slice(collection.primaryKey_start, collection.primaryKey_end * 2) || 0;
+            console.log("HEADER", header);
             var frame = collection.frames[header];            
             if(frame == undefined){
                 Object.keys(collection.frames).forEach(function(frameHeader){   
